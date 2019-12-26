@@ -1,10 +1,10 @@
 declare module "@capacitor/core" {
   interface PluginRegistry {
-    CapacitorFirebasePlugin: CapacitorFirebasePluginPlugin;
+    CapacitorFirebasePlugin: CapacitorFirebasePluginInterface;
   }
 }
 
-export interface CapacitorFirebasePluginPlugin {
+export interface CapacitorFirebasePluginInterface {
   echo(options: { value: string }): Promise<{value: string}>;
   initializeSecondaryAppFirebase(options: { value: string }): Promise<{value: string}>;
   getApps(options: {}): Promise<{value: string}>;
