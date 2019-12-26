@@ -1,0 +1,9 @@
+dist/
+node_modules/
+
+
+Pods
+Build
+*.iml
+.idea
+.DS_Store
