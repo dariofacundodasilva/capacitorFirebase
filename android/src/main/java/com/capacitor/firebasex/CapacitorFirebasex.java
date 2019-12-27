@@ -1,5 +1,7 @@
 package com.capacitor.firebasex;
 
+
+import android.content.Context;
 import android.util.Log;
 import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
