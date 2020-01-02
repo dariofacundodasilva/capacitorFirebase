@@ -128,7 +128,7 @@ public class CapacitorFirebasex extends Plugin {
         Boolean isSecondary = call.getBoolean("secondary");
         FirebaseRemoteConfig instanceRemoteConfig = (isSecondary != null && isSecondary == true) ? mSecondaryFirebaseRemoteConfig: mFirebaseRemoteConfig;
         
-        instanceRemoteConfig..activate()
+        instanceRemoteConfig.activate()
         .addOnCompleteListener(getActivity(),new OnCompleteListener<Boolean>(){
             @Override
             public void onComplete(Task<Boolean> task) {
@@ -148,7 +148,7 @@ public class CapacitorFirebasex extends Plugin {
         Boolean isSecondary = call.getBoolean("secondary");
         FirebaseRemoteConfig instanceRemoteConfig = (isSecondary != null && isSecondary == true) ? mSecondaryFirebaseRemoteConfig: mFirebaseRemoteConfig;
         
-        instanceRemoteConfig..fetchAndActivate()
+        instanceRemoteConfig.fetchAndActivate()
         .addOnCompleteListener(getActivity(),new OnCompleteListener<Boolean>(){
             @Override
             public void onComplete(Task<Boolean> task) {
