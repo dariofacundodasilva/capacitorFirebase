@@ -28,6 +28,8 @@ import io.fabric.sdk.android.Fabric;
 @NativePlugin()
 public class CapacitorFirebasex extends Plugin {
 
+    private PluginCall finalCall;
+
     private String apiKey;
     private String authDomain;
     private String databaseURL;
@@ -110,14 +112,16 @@ public class CapacitorFirebasex extends Plugin {
         Boolean isSecondary = call.getBoolean("secondary");
         FirebaseRemoteConfig instanceRemoteConfig = (isSecondary != null && isSecondary == true) ? mSecondaryFirebaseRemoteConfig: mFirebaseRemoteConfig;
         
+        finalCall = call;
+
         instanceRemoteConfig.fetch()
         .addOnCompleteListener(getActivity(),new OnCompleteListener<Void>(){
             @Override
             public void onComplete(Task<Void> task) {
                 if (task.isSuccessful()) {
-                    call.success();
+                    finalCall.success();
                 } else {
-                    call.error(task.getException().getMessage());
+                    finalCall.error(task.getException().getMessage());
                 }
             }
         });
@@ -128,6 +132,8 @@ public class CapacitorFirebasex extends Plugin {
         Boolean isSecondary = call.getBoolean("secondary");
         FirebaseRemoteConfig instanceRemoteConfig = (isSecondary != null && isSecondary == true) ? mSecondaryFirebaseRemoteConfig: mFirebaseRemoteConfig;
         
+        finalCall = call;
+
         instanceRemoteConfig.activate()
         .addOnCompleteListener(getActivity(),new OnCompleteListener<Boolean>(){
             @Override
@@ -135,9 +141,9 @@ public class CapacitorFirebasex extends Plugin {
                 if (task.isSuccessful()) {
                     JSObject data = new JSObject();
                     data.put("result",task.getResult());
-                    call.success(data);
+                    finalCall.success(data);
                 } else {
-                    call.error(task.getException().getMessage());
+                    finalCall.error(task.getException().getMessage());
                 }
             }
         });
@@ -148,6 +154,8 @@ public class CapacitorFirebasex extends Plugin {
         Boolean isSecondary = call.getBoolean("secondary");
         FirebaseRemoteConfig instanceRemoteConfig = (isSecondary != null && isSecondary == true) ? mSecondaryFirebaseRemoteConfig: mFirebaseRemoteConfig;
         
+        finalCall = call;
+
         instanceRemoteConfig.fetchAndActivate()
         .addOnCompleteListener(getActivity(),new OnCompleteListener<Boolean>(){
             @Override
@@ -155,9 +163,9 @@ public class CapacitorFirebasex extends Plugin {
                 if (task.isSuccessful()) {
                     JSObject data = new JSObject();
                     data.put("result",task.getResult());
-                    call.success(data);
+                    finalCall.success(data);
                 } else {
-                    call.error(task.getException().getMessage());
+                    finalCall.error(task.getException().getMessage());
                 }
             }
         });
