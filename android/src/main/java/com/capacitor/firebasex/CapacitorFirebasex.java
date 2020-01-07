@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Iterator;
 
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
@@ -25,10 +26,10 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 
+
+
 @NativePlugin()
 public class CapacitorFirebasex extends Plugin {
-
-    private PluginCall finalCall;
 
     private String apiKey;
     private String authDomain;
@@ -108,31 +109,28 @@ public class CapacitorFirebasex extends Plugin {
     }
 
     @PluginMethod()
-    public void fetch(PluginCall call){
+    public void fetch(final PluginCall call){
         Boolean isSecondary = call.getBoolean("secondary");
         FirebaseRemoteConfig instanceRemoteConfig = (isSecondary != null && isSecondary == true) ? mSecondaryFirebaseRemoteConfig: mFirebaseRemoteConfig;
-        
-        finalCall = call;
+
 
         instanceRemoteConfig.fetch()
         .addOnCompleteListener(getActivity(),new OnCompleteListener<Void>(){
             @Override
             public void onComplete(Task<Void> task) {
                 if (task.isSuccessful()) {
-                    finalCall.success();
+                    call.success();
                 } else {
-                    finalCall.error(task.getException().getMessage());
+                    call.error(task.getException().getMessage());
                 }
             }
         });
     }
 
     @PluginMethod()
-    public void activate(PluginCall call){
+    public void activate(final PluginCall call){
         Boolean isSecondary = call.getBoolean("secondary");
         FirebaseRemoteConfig instanceRemoteConfig = (isSecondary != null && isSecondary == true) ? mSecondaryFirebaseRemoteConfig: mFirebaseRemoteConfig;
-        
-        finalCall = call;
 
         instanceRemoteConfig.activate()
         .addOnCompleteListener(getActivity(),new OnCompleteListener<Boolean>(){
@@ -141,20 +139,19 @@ public class CapacitorFirebasex extends Plugin {
                 if (task.isSuccessful()) {
                     JSObject data = new JSObject();
                     data.put("result",task.getResult());
-                    finalCall.success(data);
+                    call.success(data);
                 } else {
-                    finalCall.error(task.getException().getMessage());
+                    call.error(task.getException().getMessage());
                 }
             }
         });
     }
 
     @PluginMethod()
-    public void fetchAndActivate(PluginCall call){
+    public void fetchAndActivate(final PluginCall call){
         Boolean isSecondary = call.getBoolean("secondary");
         FirebaseRemoteConfig instanceRemoteConfig = (isSecondary != null && isSecondary == true) ? mSecondaryFirebaseRemoteConfig: mFirebaseRemoteConfig;
-        
-        finalCall = call;
+
 
         instanceRemoteConfig.fetchAndActivate()
         .addOnCompleteListener(getActivity(),new OnCompleteListener<Boolean>(){
@@ -163,13 +160,15 @@ public class CapacitorFirebasex extends Plugin {
                 if (task.isSuccessful()) {
                     JSObject data = new JSObject();
                     data.put("result",task.getResult());
-                    finalCall.success(data);
+                    call.success(data);
                 } else {
-                    finalCall.error(task.getException().getMessage());
+                    call.error(task.getException().getMessage());
                 }
             }
         });
     }
+
+
 
     @PluginMethod()
     public void getString(PluginCall call) {
@@ -272,7 +271,6 @@ public class CapacitorFirebasex extends Plugin {
 
     @PluginMethod()
     public void sendCrash(PluginCall call){
-
         Crashlytics.getInstance().crash();//not working on capacitor
     }
 
